@@ -38,7 +38,7 @@ dotnet build FaQemSharp.csproj -c Release
 dotnet pack FaQemSharp.csproj -c Release -o artifacts/packages
 ```
 
-This produces `FaQemSharp.0.1.0.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. Publishing this GitHub repository does not publish the package to NuGet.org. No CLI or demo application is included.
+This produces `FaQemSharp.0.1.0.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. NuGet publication is triggered manually through the `Publish NuGet` GitHub Actions workflow (`publish-nuget.yml`) on `main`. It uses NuGet Trusted Publishing for the NuGet account `Fredz`, scoped to this repository and package, without storing a permanent API key. A matching NuGet policy must be configured before the first run. Each published package version is immutable; update the project version before publishing another release. No CLI or demo application is included.
 
 ## Method and scope
 
