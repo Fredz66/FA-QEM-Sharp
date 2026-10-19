@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>FaQemSharp</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>Frédéric Lopez</Authors>
     <Description>Independent C# FA-QEM implementation: GLB simplification, successive mapping, compact UV islands, lossless atlas baking and quality reports.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
