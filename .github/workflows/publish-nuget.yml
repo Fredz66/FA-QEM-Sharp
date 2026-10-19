@@ -28,14 +28,12 @@ jobs:
           dotnet-version: '10.0.x'
       - name: Pack library
         run: dotnet pack FaQemSharp.csproj --configuration Release --output artifacts/packages
-      - name: Pack CLI tool
-        run: dotnet pack cli/FaQemSharp.Cli.csproj --configuration Release --output artifacts/packages
       - name: Authenticate to NuGet.org
         uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         id: nuget
         with:
           user: Fredz
-      - name: Publish packages
+      - name: Publish package
         env:
           NUGET_API_KEY: ${{ steps.nuget.outputs.NUGET_API_KEY }}
         run: dotnet nuget push "artifacts/packages/*.nupkg" --source https://api.nuget.org/v3/index.json --no-symbols --skip-duplicate

@@ -33,10 +33,11 @@ Console.WriteLine($"Target reached: {result.TargetReached}");
 
 ## Command-line tool
 
-`FaQemSharp.Cli` is a .NET tool for Windows x64 that bundles the native OpenCV runtime.
+The `cli` folder contains `faqem`, a .NET tool for Windows x64 that bundles the native OpenCV runtime. It is not published on NuGet.org; build and install it from this repository:
 
 ```powershell
-dotnet tool install --global FaQemSharp.Cli
+dotnet pack cli/FaQemSharp.Cli.csproj -c Release -o artifacts/packages
+dotnet tool install --global FaQemSharp.Cli --add-source artifacts/packages
 faqem original.glb reduced.glb --triangles 20000 [--overwrite]
 ```
 
@@ -50,7 +51,7 @@ dotnet pack FaQemSharp.csproj -c Release -o artifacts/packages
 dotnet pack cli/FaQemSharp.Cli.csproj -c Release -o artifacts/packages
 ```
 
-This produces `FaQemSharp.<version>.nupkg` and `FaQemSharp.Cli.<version>.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. NuGet publication of both packages is triggered manually through the `Publish NuGet` GitHub Actions workflow (`publish-nuget.yml`) on `main`; versions already on NuGet.org are skipped. It uses NuGet Trusted Publishing for the NuGet account `Fredz`, scoped to this repository, without storing a permanent API key. A matching NuGet policy must be configured before the first run. Each published package version is immutable; update the project version before publishing another release.
+This produces `FaQemSharp.<version>.nupkg` and the local tool package `FaQemSharp.Cli.<version>.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. NuGet publication of the library is triggered manually through the `Publish NuGet` GitHub Actions workflow (`publish-nuget.yml`) on `main`; versions already on NuGet.org are skipped. It uses NuGet Trusted Publishing for the NuGet account `Fredz`, scoped to this repository, without storing a permanent API key. A matching NuGet policy must be configured before the first run. Each published package version is immutable; update the project version before publishing another release.
 
 ## Method and scope
 
