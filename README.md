@@ -2,7 +2,7 @@
 
 Independent C# implementation of FA-QEM for textured GLB simplification.
 
-The CPU pipeline combines geometric edge contractions, reverse-collapse surface mapping, connected UV islands, conditional reuse of original images, lossless atlas encoding and sampled quality reports. This repository contains the library only.
+The CPU pipeline combines geometric edge contractions, reverse-collapse surface mapping, connected UV islands, conditional reuse of original images, lossless atlas encoding and sampled quality reports. This repository contains the library and a command-line tool.
 
 ## Requirements
 
@@ -31,14 +31,26 @@ Console.WriteLine($"Target reached: {result.TargetReached}");
 
 `GlbDocument` exposes the GLB reader/writer used by the pipeline for host integrations. Report text and most diagnostics are currently in French. This is an early API; its shape may evolve before version 1.0.
 
+## Command-line tool
+
+`FaQemSharp.Cli` is a .NET tool for Windows x64 that bundles the native OpenCV runtime.
+
+```powershell
+dotnet tool install --global FaQemSharp.Cli
+faqem original.glb reduced.glb --triangles 20000 [--overwrite]
+```
+
+It writes `reduced.glb` and `reduced.glb.report.txt`, prints the report summary and leaves the original untouched. Existing outputs are kept unless `--overwrite` is given. Exit codes: `0` target reached, `3` result saved but target not reached, `2` invalid arguments, `1` failure. Messages are in French.
+
 ## Build and package
 
 ```powershell
 dotnet build FaQemSharp.csproj -c Release
 dotnet pack FaQemSharp.csproj -c Release -o artifacts/packages
+dotnet pack cli/FaQemSharp.Cli.csproj -c Release -o artifacts/packages
 ```
 
-This produces `FaQemSharp.0.1.0.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. NuGet publication is triggered manually through the `Publish NuGet` GitHub Actions workflow (`publish-nuget.yml`) on `main`. It uses NuGet Trusted Publishing for the NuGet account `Fredz`, scoped to this repository and package, without storing a permanent API key. A matching NuGet policy must be configured before the first run. Each published package version is immutable; update the project version before publishing another release. No CLI or demo application is included.
+This produces `FaQemSharp.<version>.nupkg` and `FaQemSharp.Cli.<version>.nupkg`. Add that directory as a local NuGet source alongside your normal source for dependencies, then reference the package and the native runtime in your application. NuGet publication of both packages is triggered manually through the `Publish NuGet` GitHub Actions workflow (`publish-nuget.yml`) on `main`; versions already on NuGet.org are skipped. It uses NuGet Trusted Publishing for the NuGet account `Fredz`, scoped to this repository, without storing a permanent API key. A matching NuGet policy must be configured before the first run. Each published package version is immutable; update the project version before publishing another release.
 
 ## Method and scope
 
